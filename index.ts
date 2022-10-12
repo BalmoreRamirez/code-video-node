@@ -7,11 +7,7 @@ dotenv.config()
 const app: Express = express() //creamos una instancia de espress
 const port: string | number = process.env.PORT || 3000 //puerto de la aplicacion
 
-//primera ruta
-app.get('/', (req: Request, res: Response) => {
-    //mandamos una respuesta cuando se haga una peticion
-    res.send({hola: 'saludo2'})
-})
+
 
 app.get('/hello', (req: Request, res: Response) => {
     //mandamos una respuesta cuando se haga una peticion
