@@ -3,24 +3,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
-//config .env
+const server_1 = __importDefault(require("./src/server"));
+const logger_1 = require("./src/utils/logger");
+// * Configuration the .env file
 dotenv_1.default.config();
-//crate express app
-const app = (0, express_1.default)(); //creamos una instancia de espress
-const port = process.env.PORT || 3000; //puerto de la aplicacion
-//primera ruta
-app.get('/', (req, res) => {
-    //mandamos una respuesta cuando se haga una peticion
-    res.send({ hola: 'saludo2' });
+const port = process.env.PORT || 3000;
+// * Execute SERVER
+server_1.default.listen(port, () => {
+    (0, logger_1.LogSuccess)(`[SERVER ON]: Running in http://localhost:${port}/api`);
 });
-app.get('/hello', (req, res) => {
-    //mandamos una respuesta cuando se haga una peticion
-    res.send({ hola: 'como estas' });
-});
-//ejecutar la app
-app.listen(port, () => {
-    console.log(`[RUN] http://localhost:${port}`);
+// * Control SERVER ERROR
+server_1.default.on('error', (error) => {
+    (0, logger_1.LogError)(`[SERVER ERROR]: ${error}`);
 });
 //# sourceMappingURL=index.js.map

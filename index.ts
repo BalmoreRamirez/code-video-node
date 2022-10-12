@@ -1,20 +1,18 @@
-import express, {Express, Request, Response} from 'express'
-import dotenv from 'dotenv'
-//config .env
-dotenv.config()
+import dotenv from 'dotenv';
+import server from './src/server';
+import {LogError, LogSuccess} from './src/utils/logger';
 
-//crate express app
-const app: Express = express() //creamos una instancia de espress
-const port: string | number = process.env.PORT || 3000 //puerto de la aplicacion
+// * Configuration the .env file
+dotenv.config();
 
+const port = process.env.PORT || 3000;
 
+// * Execute SERVER
+server.listen(port, () => {
+    LogSuccess(`[SERVER ON]: Running in http://localhost:${port}/api`);
+});
 
-app.get('/hello', (req: Request, res: Response) => {
-    //mandamos una respuesta cuando se haga una peticion
-    res.send({hola: 'como estas'})
-})
-
-//ejecutar la app
-app.listen(port, () => {
-    console.log(`[RUN] http://localhost:${port}`)
-})
+// * Control SERVER ERROR
+server.on('error', (error) => {
+    LogError(`[SERVER ERROR]: ${error}`);
+});
